@@ -5,12 +5,16 @@ import { useQuery } from '@tanstack/react-query';
 
 export const fetchNewArrivalProducts = async () => {
   const { data } = await http.get(API_ENDPOINTS.NEW_ARRIVAL_PRODUCTS);
-  return data as Product[];
+  if (data.app_data.StatusCode === 6000){
+    return data.app_data.data
+  }
 };
 
 const fetchNewArrivalAncientProducts = async () => {
   const { data } = await http.get(API_ENDPOINTS.NEW_ARRIVAL_PRODUCTS_ANCIENT);
-  return data as Product[];
+  if (data.app_data.StatusCode === 6000){
+    return data.app_data.data
+  }
 };
 
 export const useNewArrivalProductsQuery = (options: QueryOptionsType) => {

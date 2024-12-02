@@ -92,7 +92,7 @@ export default function Modal({
             >
               <div
                 className={cn(
-                  'w-full md:w-auto absolute left-1/2 transform -translate-x-1/2 shadow-xl',
+                  'w-full md:w-auto absolute left-1/2  transform -translate-x-1/2 shadow-xl',
                   containerClasses[variant],
                   containerClassName
                 )}
@@ -101,11 +101,11 @@ export default function Modal({
                   onClick={onClose}
                   aria-label="Close panel"
                   className={cn(
-                    'fixed z-10 inline-flex items-center justify-center w-7 h-7 md:w-8 md:h-8 rounded-full bg-white shadow text-gray-600 transition duration-200 focus:outline-none focus:text-gray-800 focus:shadow-md hover:text-gray-800 hover:shadow-md',
+                    'fixed z-10 inline-flex items-center justify-center w-7 h-7 md:w-8 md:h-8 rounded-full bg-body border shadow text-gray-600 transition duration-200 focus:outline-none focus:text-gray-800 focus:shadow-md hover:text-gray-800 hover:shadow-md',
                     closeBtnClasses[variant]
                   )}
                 >
-                  <IoClose className="text-xl" />
+                  <IoClose className="text-xl text-[#fff]" />
                 </button>
                 <div
                   ref={modalInnerRef}

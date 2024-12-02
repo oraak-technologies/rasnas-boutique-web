@@ -37,7 +37,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
         {labelKey && (
           <label
             htmlFor={name}
-            className="block text-gray-600 font-semibold text-sm leading-none mb-3 cursor-pointer"
+            className="block text-[#fff] font-semibold text-sm leading-none mb-3 cursor-pointer"
           >
             {t(labelKey)}
           </label>
@@ -48,6 +48,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
             name={name}
             type={show ? 'text' : 'password'}
             ref={ref}
+            style={{color:'#000'}}
             className={rootClassName}
             autoComplete="off"
             autoCapitalize="off"

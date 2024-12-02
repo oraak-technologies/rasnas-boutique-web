@@ -2,6 +2,7 @@ import { useUI } from "@contexts/ui.context";
 import Modal from "./modal";
 import dynamic from "next/dynamic";
 import Newsletter from "../newsletter";
+import OTPForm from "@components/auth/otp-form";
 const LoginForm = dynamic(() => import("@components/auth/login-form"));
 const SignUpForm = dynamic(() => import("@components/auth/sign-up-form"));
 const ForgetPasswordForm = dynamic(
@@ -13,6 +14,7 @@ const ManagedModal: React.FC = () => {
 	return (
 		<Modal open={displayModal} onClose={closeModal}>
 			{modalView === "LOGIN_VIEW" && <LoginForm />}
+			{modalView === "SIGNUP_OTP" && <OTPForm />}
 			{modalView === "SIGN_UP_VIEW" && <SignUpForm />}
 			{modalView === "FORGET_PASSWORD" && <ForgetPasswordForm />}
 			{modalView === "PRODUCT_VIEW" && <ProductPopup />}

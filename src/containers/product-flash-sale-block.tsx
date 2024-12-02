@@ -79,25 +79,25 @@ const renderer = ({ days, hours, minutes, seconds, completed }: any) => {
     return (
       <div className="flex items-center gap-x-1.5 md:gap-x-2.5">
         <div className="text-heading text-10px md:text-xs text-center uppercase">
-          <span className="bg-heading rounded-md text-white text-xs md:text-sm w-8 h-8 md:w-10 md:h-10 flex items-center justify-center mb-1">
+          <span className="bg-heading rounded-md text-body text-xs md:text-sm w-8 h-8 md:w-10 md:h-10 flex items-center justify-center mb-1">
             {days}
           </span>
           days
         </div>
         <div className="text-heading text-10px md:text-xs text-center uppercase">
-          <span className="bg-heading rounded-md text-white text-xs md:text-sm w-8 h-8 md:w-10 md:h-10 flex items-center justify-center mb-1">
+          <span className="bg-heading rounded-md text-body text-xs md:text-sm w-8 h-8 md:w-10 md:h-10 flex items-center justify-center mb-1">
             {hours}
           </span>
           hours
         </div>
         <div className="text-heading text-10px md:text-xs text-center uppercase">
-          <span className="bg-heading rounded-md text-white text-xs md:text-sm w-8 h-8 md:w-10 md:h-10 flex items-center justify-center mb-1">
+          <span className="bg-heading rounded-md text-body text-xs md:text-sm w-8 h-8 md:w-10 md:h-10 flex items-center justify-center mb-1">
             {minutes}
           </span>
           mins
         </div>
         <div className="text-heading text-10px md:text-xs text-center uppercase">
-          <span className="bg-heading rounded-md text-white text-xs md:text-sm w-8 h-8 md:w-10 md:h-10 flex items-center justify-center mb-1">
+          <span className="bg-heading rounded-md text-body text-xs md:text-sm w-8 h-8 md:w-10 md:h-10 flex items-center justify-center mb-1">
             {seconds}
           </span>
           secs
@@ -115,7 +115,7 @@ const ProductsFlashSaleBlock: React.FC<ProductsProps> = ({
   disableSectionBorder = false,
   hideCountdown = false,
   itemVariant,
-  limit,
+  limit = 10,
   TwoXlCols = 5,
   demoVariant,
   disableBorderRadius = false,
@@ -125,7 +125,8 @@ const ProductsFlashSaleBlock: React.FC<ProductsProps> = ({
     limit: limit || 10,
     demoVariant,
   });
-
+  console.log(data);
+  
   if (isLoading) {
     return (
       <ProductFlashSaleWrapper
@@ -188,7 +189,7 @@ const ProductsFlashSaleBlock: React.FC<ProductsProps> = ({
       >
         {limit ? (
           <>
-            {data?.productFlashSellGridTwo
+            {data
               ?.slice(0, limit)
               ?.map((product: any) => (
                 <ProductCard

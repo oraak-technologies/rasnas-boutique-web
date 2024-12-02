@@ -12,11 +12,14 @@ module.exports = {
     },
     extend: {
       colors: {
-        body: '#5A5A5A',
-        heading: '#212121',
+        // body: '#0e4e3f',
+        body:'#001F54',
+        // body:'#FFFFFF',
+        // heading: '#212121',
+        heading: '#FFF',
         input: '#1D1E1F',
         black: '#000',
-        white: '#fff',
+        white: '#FFF',
         linen: '#FBF1E9',
         linenSecondary: '#ECE7E3',
         olive: '#3D9970',

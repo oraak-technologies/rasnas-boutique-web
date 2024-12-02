@@ -5,10 +5,10 @@ import { useForm } from 'react-hook-form';
 import Logo from '@components/ui/logo';
 import { useUI } from '@contexts/ui.context';
 import { useSignUpMutation, SignUpInputType } from '@framework/auth/use-signup';
-import { ImGoogle2, ImFacebook2 } from 'react-icons/im';
 import Link from '@components/ui/link';
 import { ROUTES } from '@utils/routes';
 import { useTranslation } from 'next-i18next';
+import { FcGoogle } from "react-icons/fc";
 
 const SignUpForm: React.FC = () => {
   const { t } = useTranslation();
@@ -22,24 +22,21 @@ const SignUpForm: React.FC = () => {
 
   function handleSignIn() {
     setModalView('LOGIN_VIEW');
-    return openModal();
+    openModal();
   }
 
-  function onSubmit({ name, email, password }: SignUpInputType) {
-    signUp({
-      name,
-      email,
-      password,
-    });
+  async function onSubmit({ name, email, password }: SignUpInputType) {
+    await signUp({ name, email, password });
     console.log(name, email, password, 'sign form values');
   }
+
   return (
-    <div className="py-5 px-5 sm:px-8 bg-white mx-auto rounded-lg w-full sm:w-96 md:w-450px border border-gray-300">
+    <div className="py-5 px-5 sm:px-8 bg-body mx-auto rounded-lg w-full sm:w-96 md:w-450px border border-gray-300">
       <div className="text-center mb-6 pt-2.5">
         <div onClick={closeModal}>
           <Logo />
         </div>
-        <p className="text-sm md:text-base text-body mt-2 mb-8 sm:mb-10">
+        <p className="text-sm md:text-base text-white mt-2 mb-8 sm:mb-10">
           {t('common:registration-helper')}{' '}
           <Link
             href={ROUTES.TERMS}
@@ -106,30 +103,21 @@ const SignUpForm: React.FC = () => {
       </form>
       <div className="flex flex-col items-center justify-center relative text-sm text-heading mt-6 mb-3.5">
         <hr className="w-full border-gray-300" />
-        <span className="absolute -top-2.5 px-2 bg-white">
+        <span className="absolute -top-2.5 px-2 bg-body">
           {t('common:text-or')}
         </span>
       </div>
-
       <Button
-        type="submit"
-        loading={isPending}
-        disabled={isPending}
-        className="h-11 md:h-12 w-full mt-2.5 bg-facebook hover:bg-facebookHover"
-      >
-        <ImFacebook2 className="text-sm sm:text-base ltr:mr-1.5 rtl:ml-1.5" />
-        {t('common:text-login-with-facebook')}
-      </Button>
-      <Button
-        type="submit"
+        type="button"
         loading={isPending}
         disabled={isPending}
         className="h-11 md:h-12 w-full mt-2.5 bg-google hover:bg-googleHover"
+        onClick={() => console.log('Google login clicked')}
       >
-        <ImGoogle2 className="text-sm sm:text-base ltr:mr-1.5 rtl:ml-1.5" />
+        <FcGoogle className="text-sm sm:text-base ltr:mr-1.5 rtl:ml-1.5" />
         {t('common:text-login-with-google')}
       </Button>
-      <div className="text-sm sm:text-base text-body text-center mt-5 mb-1">
+      <div className="text-sm sm:text-base text-white text-center mt-5 mb-1">
         {t('common:text-have-account')}{' '}
         <button
           type="button"

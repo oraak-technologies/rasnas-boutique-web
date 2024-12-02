@@ -1,0 +1,62 @@
+{
+  "../components/common/modal/managed-modal.tsx -> @components/auth/forget-password-form": {
+    "id": "../components/common/modal/managed-modal.tsx -> @components/auth/forget-password-form",
+    "files": [
+      "static/chunks/src_components_auth_forget-password-form_tsx.js"
+    ]
+  },
+  "../components/common/modal/managed-modal.tsx -> @components/auth/login-form": {
+    "id": "../components/common/modal/managed-modal.tsx -> @components/auth/login-form",
+    "files": [
+      "static/chunks/src_components_auth_login-form_tsx.js"
+    ]
+  },
+  "../components/common/modal/managed-modal.tsx -> @components/auth/sign-up-form": {
+    "id": "../components/common/modal/managed-modal.tsx -> @components/auth/sign-up-form",
+    "files": [
+      "static/chunks/src_components_auth_sign-up-form_tsx.js"
+    ]
+  },
+  "../components/common/modal/managed-modal.tsx -> @components/product/product-popup": {
+    "id": "../components/common/modal/managed-modal.tsx -> @components/product/product-popup",
+    "files": [
+      "static/chunks/src_components_product_product-popup_tsx.js"
+    ]
+  },
+  "../components/layout/header/header.tsx -> ./auth-menu": {
+    "id": "../components/layout/header/header.tsx -> ./auth-menu",
+    "files": [
+      "static/chunks/src_components_layout_header_auth-menu_tsx.js"
+    ]
+  },
+  "../components/layout/header/header.tsx -> @components/cart/cart-button": {
+    "id": "../components/layout/header/header.tsx -> @components/cart/cart-button",
+    "files": [
+      "static/chunks/src_components_cart_cart-button_tsx.js"
+    ]
+  },
+  "../components/layout/mobile-navigation/mobile-navigation.tsx -> @components/cart/cart-button": {
+    "id": "../components/layout/mobile-navigation/mobile-navigation.tsx -> @components/cart/cart-button",
+    "files": [
+      "static/chunks/src_components_cart_cart-button_tsx.js"
+    ]
+  },
+  "../components/layout/mobile-navigation/mobile-navigation.tsx -> @components/layout/header/auth-menu": {
+    "id": "../components/layout/mobile-navigation/mobile-navigation.tsx -> @components/layout/header/auth-menu",
+    "files": [
+      "static/chunks/src_components_layout_header_auth-menu_tsx.js"
+    ]
+  },
+  "../components/layout/mobile-navigation/mobile-navigation.tsx -> @components/layout/header/mobile-menu": {
+    "id": "../components/layout/mobile-navigation/mobile-navigation.tsx -> @components/layout/header/mobile-menu",
+    "files": [
+      "static/chunks/src_components_layout_header_mobile-menu_tsx.js"
+    ]
+  },
+  "../containers/product-flash-sale-block.tsx -> react-countdown": {
+    "id": "../containers/product-flash-sale-block.tsx -> react-countdown",
+    "files": [
+      "static/chunks/node_modules_react-countdown_dist_index_es_js.js"
+    ]
+  }
+}

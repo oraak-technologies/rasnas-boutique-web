@@ -23,6 +23,9 @@ export default function NewArrivalsProductFeed({
     demoVariant,
   });
 
+  console.log(data, '_____rtrt');
+  
+
   return (
     <ProductsBlock
       className={className}

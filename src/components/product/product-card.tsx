@@ -58,6 +58,9 @@ const ProductCard: FC<ProductProps> = ({
 }) => {
   const { openModal, setModalView, setModalData } = useUI();
   const placeholderImage = `/assets/placeholder/products/product-${variant}.svg`;
+  console.log('====================================');
+  console.log(product);
+  console.log('====================================');
   const { price, basePrice, discount } = usePrice({
     amount: product.sale_price ? product.sale_price : product.price,
     baseAmount: product.price,
@@ -119,7 +122,7 @@ const ProductCard: FC<ProductProps> = ({
         )}
       >
         <Image
-          src={product?.image?.thumbnail ?? placeholderImage}
+          src={Array.isArray(product?.images) && product.images.length > 0 ? product.images[0].image : placeholderImage}
           width={demoVariant === 'ancient' ? 352 : imgWidth}
           height={demoVariant === 'ancient' ? 452 : imgHeight}
           loading={imgLoading}
@@ -252,14 +255,14 @@ const ProductCard: FC<ProductProps> = ({
             'text-sm sm:text-base md:mb-1.5 pb-0': variant === 'listSmall',
             'text-sm sm:text-base md:text-sm lg:text-base xl:text-lg md:mb-1.5':
               variant === 'list',
-            'text-white': bgTransparent,
-            'text-heading': !bgTransparent,
+            'text-black': bgTransparent,
+            'text-black px-4': !bgTransparent,
           })}
         >
           {product?.name}
         </h2>
         {!hideProductDescription && product?.description && (
-          <p className="text-body text-xs lg:text-sm leading-normal xl:leading-relaxed max-w-[250px] truncate">
+          <p className="text-body text-xs px-4 lg:text-sm leading-normal xl:leading-relaxed max-w-[250px] truncate">
             {product?.description}
           </p>
         )}
@@ -278,19 +281,19 @@ const ProductCard: FC<ProductProps> = ({
           } ${bgTransparent ? 'text-white' : 'text-heading'}`}
         >
           <span
-            className={`inline-block ${
+            className={`inline-block px-4 text-black ${
               demoVariant === 'ancient' && 'font-bold text-gray-900 text-lg'
             }`}
           >
-            {price}
+            ₹{product?.selling_price}
           </span>
-          {discount && (
+          {!discount && (
             <del
               className={`sm:text-base font-normal ${
                 bgTransparent ? 'text-white/70' : 'text-gray-800'
               }`}
             >
-              {basePrice}
+              ₹{300.00}
             </del>
           )}
         </div>

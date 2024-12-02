@@ -6,12 +6,23 @@ import { useLoginMutation, LoginInputType } from '@framework/auth/use-login';
 import { useUI } from '@contexts/ui.context';
 import Logo from '@components/ui/logo';
 import { ImGoogle2, ImFacebook2 } from 'react-icons/im';
+import { FcGoogle } from "react-icons/fc";
 import { useTranslation } from 'next-i18next';
+import { loginWithGoogle } from '@utils/firebase';
+import { useState } from 'react';
+import { User } from 'firebase/auth';
 
 const LoginForm: React.FC = () => {
+  const [user, setUser] = useState<User | null>(null);
   const { t } = useTranslation();
   const { setModalView, openModal, closeModal } = useUI();
   const { mutate: login, isPending } = useLoginMutation();
+
+  const handleLogin = async () => {
+    const loggedInUser = await loginWithGoogle();
+    if (loggedInUser) setUser(loggedInUser);
+  };
+
 
   const {
     register,
@@ -43,12 +54,12 @@ const LoginForm: React.FC = () => {
     return openModal();
   }
   return (
-    <div className="w-full px-5 py-5 mx-auto overflow-hidden bg-white border border-gray-300 rounded-lg sm:w-96 md:w-450px sm:px-8">
+    <div className="w-full px-5 py-5 mx-auto overflow-hidden bg-body border border-gray-600 rounded-lg sm:w-96 md:w-450px sm:px-8">
       <div className="text-center mb-6 pt-2.5">
         <div onClick={closeModal}>
           <Logo />
         </div>
-        <p className="mt-2 mb-8 text-sm md:text-base text-body sm:mb-10">
+        <p className="mt-2 mb-8 text-sm md:text-base text-[#fff] sm:mb-10">
           {t('common:login-helper')}
         </p>
       </div>
@@ -61,6 +72,7 @@ const LoginForm: React.FC = () => {
           <Input
             labelKey="forms:label-email"
             type="email"
+            className='text-[#fff]'
             variant="solid"
             {...register('email', {
               required: `${t('forms:email-required')}`,
@@ -112,7 +124,7 @@ const LoginForm: React.FC = () => {
               type="submit"
               loading={isPending}
               disabled={isPending}
-              className="h-11 md:h-12 w-full mt-1.5"
+              className="h-11 md:h-12 w-full mt-1.5 text-body"
             >
               {t('common:text-login')}
             </Button>
@@ -121,29 +133,21 @@ const LoginForm: React.FC = () => {
       </form>
       <div className="flex flex-col items-center justify-center relative text-sm text-heading mt-6 mb-3.5">
         <hr className="w-full border-gray-300" />
-        <span className="absolute -top-2.5 px-2 bg-white">
+        <span className="absolute -top-2.5 px-2 bg-body">
           {t('common:text-or')}
         </span>
       </div>
       <Button
         loading={isPending}
         disabled={isPending}
-        className="h-11 md:h-12 w-full mt-2.5 bg-facebook hover:bg-facebookHover"
-        onClick={handelSocialLogin}
-      >
-        <ImFacebook2 className="text-sm sm:text-base ltr:mr-1.5 rtl:ml-1.5" />
-        {t('common:text-login-with-facebook')}
-      </Button>
-      <Button
-        loading={isPending}
-        disabled={isPending}
         className="h-11 md:h-12 w-full mt-2.5 bg-google hover:bg-googleHover"
-        onClick={handelSocialLogin}
+        // onClick={handelSocialLogin}
+        onClick={handleLogin}
       >
-        <ImGoogle2 className="text-sm sm:text-base ltr:mr-1.5 rtl:ml-1.5" />
+        <FcGoogle className="text-sm sm:text-base ltr:mr-1.5 rtl:ml-1.5" />
         {t('common:text-login-with-google')}
       </Button>
-      <div className="mt-5 mb-1 text-sm text-center sm:text-base text-body">
+      <div className="mt-5 mb-1 text-sm text-center sm:text-base text-white">
         {t('common:text-no-account')}{' '}
         <button
           type="button"

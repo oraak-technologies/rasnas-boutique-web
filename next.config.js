@@ -11,4 +11,7 @@ module.exports = withPWA({
   typescript: {
     ignoreBuildErrors: true,
   },
+  images: {
+    domains: ['localhost'], // Added to allow images from localhost
+  },
 });

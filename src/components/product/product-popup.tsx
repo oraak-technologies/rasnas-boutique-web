@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import isEmpty from 'lodash/isEmpty';
-import { ROUTES } from '@utils/routes';
-import { useUI } from '@contexts/ui.context';
-import Button from '@components/ui/button';
-import Counter from '@components/common/counter';
-import { useCart } from '@contexts/cart/cart.context';
-import { ProductAttributes } from '@components/product/product-attributes';
-import { generateCartItem } from '@utils/generate-cart-item';
-import usePrice from '@framework/product/use-price';
-import { getVariations } from '@framework/utils/get-variations';
-import { useTranslation } from 'next-i18next';
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import isEmpty from "lodash/isEmpty";
+import { ROUTES } from "@utils/routes";
+import { useUI } from "@contexts/ui.context";
+import Button from "@components/ui/button";
+import Counter from "@components/common/counter";
+import { useCart } from "@contexts/cart/cart.context";
+import { ProductAttributes } from "@components/product/product-attributes";
+import { generateCartItem } from "@utils/generate-cart-item";
+import usePrice from "@framework/product/use-price";
+import { getVariations } from "@framework/utils/get-variations";
+import { useTranslation } from "next-i18next";
 
 export default function ProductPopup() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation("common");
   const {
     modalData: { data },
     closeModal,
@@ -25,13 +25,16 @@ export default function ProductPopup() {
   const [attributes, setAttributes] = useState<{ [key: string]: string }>({});
   const [viewCartBtn, setViewCartBtn] = useState<boolean>(false);
   const [addToCartLoader, setAddToCartLoader] = useState<boolean>(false);
+  const [selectedAttribute, setSelectedAttribute] = useState<any>();
+  const [imageNumb, setImageNumb] = useState<number>(0);
   const { price, basePrice, discount } = usePrice({
     amount: data.sale_price ? data.sale_price : data.price,
     baseAmount: data.price,
-    currencyCode: 'USD',
+    currencyCode: "USD",
   });
   const variations = getVariations(data.variations);
-  const { slug, image, name, description } = data;
+  const { slug, images, name, description, selling_price, attribute } = data;
+  console.log(images, "__________");
 
   const isSelected = !isEmpty(variations)
     ? !isEmpty(attributes) &&
@@ -39,7 +42,9 @@ export default function ProductPopup() {
         attributes.hasOwnProperty(variation)
       )
     : true;
-
+  function getRandomNumber(limit: number) {
+    return Math.floor(Math.random() * limit);
+  }
   function addToCart() {
     if (!isSelected) return;
     // to show btn feedback while product carting
@@ -50,7 +55,7 @@ export default function ProductPopup() {
     }, 600);
     const item = generateCartItem(data!, attributes);
     addItemToCart(item, quantity);
-    console.log(item, 'item');
+    console.log(item, "item");
   }
 
   function navigateToProductPage() {
@@ -61,10 +66,11 @@ export default function ProductPopup() {
   }
 
   function handleAttribute(attribute: any) {
-    setAttributes((prev) => ({
-      ...prev,
-      ...attribute,
-    }));
+    // setAttributes((prev) => ({
+    //   ...prev,
+    //   ...attribute,
+    // }));
+    setSelectedAttribute(attribute)
   }
 
   function navigateToCartPage() {
@@ -73,15 +79,20 @@ export default function ProductPopup() {
       openCart();
     }, 300);
   }
+  useEffect(() => {
+    setInterval(() => {
+      setImageNumb(getRandomNumber(images.length));
+    }, 10000);
+  }, []);
 
   return (
-    <div className="rounded-lg bg-white">
+    <div className="rounded-lg bg-body">
       <div className="flex flex-col lg:flex-row w-full md:w-[650px] lg:w-[960px] mx-auto overflow-hidden">
         <div className="flex-shrink-0 flex items-center justify-center w-full lg:w-430px max-h-430px lg:max-h-full overflow-hidden bg-gray-300">
           <img
             src={
-              image?.original ??
-              '/assets/placeholder/products/product-thumbnail.svg'
+              images[getRandomNumber(images.length)]?.image ??
+              "/assets/placeholder/products/product-thumbnail.svg"
             }
             alt={name}
             className="lg:object-cover lg:w-full lg:h-full"
@@ -99,13 +110,13 @@ export default function ProductPopup() {
                 {name}
               </h2>
             </div>
-            <p className="text-sm leading-6 md:text-body md:leading-7">
+            <p className="text-sm leading-6 md:text-[#fff] md:leading-7">
               {description}
             </p>
 
             <div className="flex items-center mt-3">
               <div className="text-heading font-semibold text-base md:text-xl lg:text-2xl">
-                {price}
+              ₹ {selling_price}
               </div>
               {discount && (
                 <del className="font-segoe text-gray-400 text-base lg:text-xl ltr:pl-2.5 rtl:pr-2.5 -mt-0.5 md:mt-0">
@@ -115,18 +126,24 @@ export default function ProductPopup() {
             </div>
           </div>
 
-          {Object.keys(variations).map((variation) => {
+          {/* {Object.keys(variations).map((variation) => {
             return (
               <ProductAttributes
                 key={`popup-attribute-key${variation}`}
                 title={variation}
-                attributes={variations[variation]}
+                attributes={attribute}
                 active={attributes[variation]}
                 onClick={handleAttribute}
               />
             );
-          })}
-
+          })} */}
+          <ProductAttributes
+            key={`popup-attribute-key${"variation"}`}
+            title={"Size"}
+            attributes={attribute}
+            active={selectedAttribute}
+            onClick={handleAttribute}
+          />
           <div className="pt-2 md:pt-4">
             <div className="flex items-center justify-between mb-4 gap-x-3 sm:gap-x-4">
               <Counter
@@ -140,13 +157,11 @@ export default function ProductPopup() {
               <Button
                 onClick={addToCart}
                 variant="flat"
-                className={`w-full h-11 md:h-12 px-1.5 ${
-                  !isSelected && 'bg-gray-400 hover:bg-gray-400'
-                }`}
+                className={`w-full bg-black h-11 md:h-12 px-1.5 `}
                 disabled={!isSelected}
                 loading={addToCartLoader}
               >
-                {t('text-add-to-cart')}
+                {t("text-add-to-cart")}
               </Button>
             </div>
 
@@ -155,7 +170,7 @@ export default function ProductPopup() {
                 onClick={navigateToCartPage}
                 className="w-full mb-4 h-11 md:h-12 rounded bg-gray-100 text-heading focus:outline-none border border-gray-300 transition-colors hover:bg-gray-50 focus:bg-gray-50"
               >
-                {t('text-view-cart')}
+                {t("text-view-cart")}
               </button>
             )}
 
@@ -164,7 +179,7 @@ export default function ProductPopup() {
               variant="flat"
               className="w-full h-11 md:h-12"
             >
-              {t('text-view-details')}
+              {t("text-view-details")}
             </Button>
           </div>
         </div>

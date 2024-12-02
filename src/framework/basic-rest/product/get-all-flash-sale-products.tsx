@@ -5,7 +5,9 @@ import { useQuery } from '@tanstack/react-query';
 
 export const fetchFlashSaleProducts = async () => {
   const { data } = await http.get(API_ENDPOINTS.FLASH_SALE_PRODUCTS);
-  return data;
+  if (data.app_data.StatusCode === 6000){
+    return data.app_data.data
+  }
 };
 
 const fetchAncientFlashSaleProducts = async () => {

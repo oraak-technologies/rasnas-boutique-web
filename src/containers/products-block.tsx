@@ -38,7 +38,7 @@ interface ProductsProps {
 const ProductsBlock: React.FC<ProductsProps> = ({
   sectionHeading,
   categorySlug,
-  className = "mb-9 md:mb-10 xl:mb-12",
+  className = "mb-9 md:mb-10 xl:mb-12 bg-body",
   products,
   loading,
   error,
@@ -53,6 +53,8 @@ const ProductsBlock: React.FC<ProductsProps> = ({
   demoVariant,
   disableBorderRadius = false,
 }) => {
+  console.log(products,'___helllo_world____');
+  
   return (
     <div className={className}>
       {sectionHeading && (
@@ -73,7 +75,7 @@ const ProductsBlock: React.FC<ProductsProps> = ({
               demoVariant === "ancient" ? 2 : 3
             } xl:gap-y-${demoVariant === "ancient" ? 2 : 5} 2xl:gap-y-${
               demoVariant === "ancient" ? 3 : 8
-            } bg-white`,
+            } bg-body`,
             {
               "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5":
                 variant === "grid",

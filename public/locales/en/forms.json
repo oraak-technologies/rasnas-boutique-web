@@ -28,6 +28,7 @@
   "label-last-name": "Last Name *",
   "label-name-star": "Name *",
   "label-email-star": "Email *",
+  "label-otp": "Enter your OTP",
   "label-address": "Address *",
   "label-phone": "Phone/Mobile *",
   "label-city": "City/Town",

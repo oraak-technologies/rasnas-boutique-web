@@ -18,13 +18,14 @@ const ListMenu = ({
   return (
     <li className={cn(!hasMegaMenu ? 'group relative' : '')}>
       <Link
-        href={data.path}
-        className="flex items-center py-2 ltr:pl-5 rtl:pr-5 ltr:xl:pl-7 rtl:xl:pr-7 ltr:pr-3 rtl:pl-3 ltr:xl:pr-3.5 rtl:xl:pl-3.5 hover:text-heading hover:bg-gray-300"
+        href={"data.path"}
+        className="flex items-center py-2 ltr:pl-5 rtl:pr-5 ltr:xl:pl-7 rtl:xl:pr-7 ltr:pr-3 rtl:pl-3 ltr:xl:pr-3.5 rtl:xl:pl-3.5 hover:text-heading hover:bg-gray-700"
       >
         {data.icon && (
           <span className="inline-flex ltr:mr-2 rtl:ml-2">{data.icon}</span>
         )}
-        {t(data.label)}
+        {/* {t(data.label)} */}
+        {data.name}
         {data.subMenu && (
           <span className="text-sm mt-0.5 shrink-0 ltr:ml-auto rtl:mr-auto">
             <IoIosArrowForward className="transition duration-300 ease-in-out text-body group-hover:text-black" />

@@ -18,7 +18,7 @@ export default function SignUpPage() {
       </Container>
     </>
   );
-}
+}  
 
 SignUpPage.Layout = Layout;
 
