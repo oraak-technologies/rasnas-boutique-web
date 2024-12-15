@@ -115,3 +115,13 @@
     max-height: calc(100vh - 128px);
   }
 }
+
+.no_scrollbar {
+  /* Hide scrollbar for all browsers */
+  -ms-overflow-style: none;  /* Internet Explorer and Edge */
+  scrollbar-width: none;      /* Firefox */
+}
+
+.no_scrollbar::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}

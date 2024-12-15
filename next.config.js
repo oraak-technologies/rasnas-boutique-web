@@ -12,6 +12,6 @@ module.exports = withPWA({
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ['localhost'], // Added to allow images from localhost
+    domains: ['localhost', 'api.rasnasboutique.com'], // Added to allow images from localhost
   },
 });

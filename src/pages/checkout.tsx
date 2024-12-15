@@ -20,7 +20,7 @@ export default function CheckoutPage() {
             <CheckoutCard />
           </div>
         </div>
-        <Subscription />
+        {/* <Subscription /> */}
       </Container>
     </>
   );

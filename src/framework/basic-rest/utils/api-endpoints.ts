@@ -31,4 +31,9 @@ export const API_ENDPOINTS = {
   SEARCH: '/search.json',
   ORDERS: '/orders.json',
   ORDER: '/order.json',
+  ADD_TO_CART: 'activities/add_to_cart/',
+  CART_ITEMS: 'activities/view_cart_items/',
+  GET_ADDRESSES: 'accounts/view_addresses/',
+  ADD_ADDRESS: 'accounts/add_address/',
+  PURCHASE: 'activities/purchase_items/'
 };

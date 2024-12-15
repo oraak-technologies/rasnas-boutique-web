@@ -1,45 +1,90 @@
-import Input from '@components/ui/input';
-import { useForm } from 'react-hook-form';
-import TextArea from '@components/ui/text-area';
-import { useCheckoutMutation } from '@framework/checkout/use-checkout';
-import { CheckBox } from '@components/ui/checkbox';
-import Button from '@components/ui/button';
-import Router from 'next/router';
-import { ROUTES } from '@utils/routes';
-import { useTranslation } from 'next-i18next';
-
-interface CheckoutInputType {
-  firstName: string;
-  lastName: string;
-  phone: string;
-  email: string;
-  address: string;
-  city: string;
-  zipCode: string;
-  save: boolean;
-  note: string;
-}
+import Input from "@components/ui/input";
+import AddressList from "./addresses";
+import { CheckBox } from "@components/ui/checkbox";
+import Button from "@components/ui/button";
+import TextArea from "@components/ui/text-area";
+import { useTranslation } from "react-i18next";
+import { useAddAddressMutation } from "./useAddressMutation";
+import { useCheckoutMutation } from "@framework/checkout/use-checkout";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import http from "@framework/utils/http";
+import { API_ENDPOINTS } from "@framework/utils/api-endpoints";
+import { toast } from "react-toastify";
 
 const CheckoutForm: React.FC = () => {
   const { t } = useTranslation();
   const { mutate: updateUser, isPending } = useCheckoutMutation();
+  const { mutate, isLoading, isError, error, isSuccess } = useAddAddressMutation();
+  const [refresh, setRefresh] = useState(false); // State to control refresh
+
+  // Function to toggle the refresh state
+  const handleRefresh = () => {
+    setRefresh((prev) => !prev);
+  };
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<CheckoutInputType>();
-  function onSubmit(input: CheckoutInputType) {
-    updateUser(input);
-    Router.push(ROUTES.ORDER);
-  }
 
+  // Handle form submission
+  function onSubmit(input: CheckoutInputType) {
+    console.log(input);
+    mutate({
+      first_name: input.firstName,
+      last_name: input.lastName,
+      address: input.address,
+      phone: input.phone,
+      email: input.email,
+      city: input.city,
+      post_code: input.zipCode,
+    });
+    handleRefresh()
+    // if (input.save) {
+    //   // Only save the address if "Save information" checkbox is checked
+    //   mutate({
+    //     first_name: input.firstName,
+    //     last_name: input.lastName,
+    //     address: input.address,
+    //     phone: input.phone,
+    //     email: input.email,
+    //     city: input.city,
+    //     post_code: input.zipCode,
+    //   });
+    // }
+
+    // Uncomment if you need additional logic
+    // updateUser(input);
+    // Router.push(ROUTES.ORDER);
+  }
+  const [selectedAddress, setSelectedAddress] = useState()
+
+  const handleSubmit2 = (e) => {
+    e.preventDefault()
+    if(!selectedAddress){
+      toast.error("Please select or add an address")
+    }else{
+      http.post(API_ENDPOINTS.PURCHASE, {address: selectedAddress.id}).then((res)=>{
+        console.log(res);
+        
+      })
+    }
+    
+    
+  }
   return (
     <>
       <h2 className="text-lg md:text-xl xl:text-2xl font-bold text-heading mb-6 xl:mb-8">
-        {t('text-shipping-address')}
+        {t('text-shipping-address')} 
       </h2>
+      <div>
+        <AddressList onAddressSelect={(e)=>setSelectedAddress(e)
+        }/>
+      </div>
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit)} // Form submission is handled by handleSubmit
         className="w-full mx-auto flex flex-col justify-center "
         noValidate
       >
@@ -118,21 +163,24 @@ const CheckoutForm: React.FC = () => {
           <div className="relative flex items-center ">
             <CheckBox labelKey="forms:label-save-information" />
           </div>
+          <div>
+            <Button
+              type="submit" // Changed to 'submit' to trigger form submission
+              loading={isLoading}
+              disabled={isLoading}
+            >
+              Add Address
+            </Button>
+          </div>
           <TextArea
             labelKey="forms:label-order-notes"
             {...register('note')}
             placeholderKey="forms:placeholder-order-notes"
             className="relative pt-3 xl:pt-6"
           />
-          <div className="flex w-full">
-            <Button
-              className="w-full sm:w-auto"
-              loading={isPending}
-              disabled={isPending}
-            >
-              {t('common:button-place-order')}
-            </Button>
-          </div>
+        </div>
+        <div className="py-8 flex justify-end">
+          <Button onClick={(e)=>handleSubmit2(e)}>Place order</Button>
         </div>
       </form>
     </>

@@ -9,6 +9,7 @@ import usePrice from '@framework/product/use-price';
 import { ROUTES } from '@utils/routes';
 import { generateCartItemName } from '@utils/generate-cart-item-name';
 import { useTranslation } from 'next-i18next';
+import { useCartQuery } from '@framework/checkout/get-cartitems';
 
 type CartItemProps = {
   item: any;
@@ -17,6 +18,8 @@ type CartItemProps = {
 const CartItem: React.FC<CartItemProps> = ({ item }) => {
   const { t } = useTranslation('common');
   const { addItemToCart, removeItemFromCart, clearItemFromCart } = useCart();
+  console.log(item, '____log___item');
+  
   const { price } = usePrice({
     amount: item.price,
     currencyCode: 'USD',
@@ -38,7 +41,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
     >
       <div className="relative flex flex-shrink-0 w-24 h-24 overflow-hidden bg-gray-200 rounded-md cursor-pointer md:w-28 md:h-28 ltr:mr-4 rtl:ml-4">
         <Image
-          src={item?.image ?? '/assets/placeholder/cart-item.svg'}
+          src={item?.product_info.images[0].image}
           width={112}
           height={112}
           loading="eager"
@@ -57,13 +60,14 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
       <div className="flex flex-col w-full overflow-hidden">
         <Link
           href={`${ROUTES.PRODUCT}/${item?.slug}`}
-          className="truncate text-sm text-heading mb-1.5 -mt-1"
+          className="truncate text-sm mb-1.5 -mt-1 text-black"
         >
-          {generateCartItemName(item.name, item.attributes)}
+          {item.product_info.name}
+          {/* {generateCartItemName(item.product_info.name)} */}
         </Link>
         {/* @ts-ignore */}
         <span className="text-sm text-gray-400 mb-2.5">
-          {t('text-unit-price')} : &nbsp; {price}
+          {t('text-unit-price')} : &nbsp; {item.product_info.selling_price}
         </span>
 
         <div className="flex items-end justify-between">

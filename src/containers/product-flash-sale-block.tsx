@@ -4,6 +4,7 @@ import ProductCardGridLoader from '@components/ui/loaders/product-card-grid-load
 import { useFlashSaleProductsQuery } from '@framework/product/get-all-flash-sale-products';
 import Alert from '@components/ui/alert';
 import dynamic from 'next/dynamic';
+import userStore from '@contexts/userStore';
 
 const Countdown = dynamic(() => import('react-countdown'), { ssr: false });
 
@@ -121,9 +122,11 @@ const ProductsFlashSaleBlock: React.FC<ProductsProps> = ({
   disableBorderRadius = false,
   bgGray,
 }) => {
+  const country = userStore(((state)=>state.country))
   const { data, isLoading, error } = useFlashSaleProductsQuery({
     limit: limit || 10,
     demoVariant,
+    country: country
   });
   console.log(data);
   

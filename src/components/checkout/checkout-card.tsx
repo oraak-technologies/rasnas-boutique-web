@@ -3,11 +3,16 @@ import { useCart } from '@contexts/cart/cart.context';
 import { CheckoutItem } from '@components/checkout/checkout-card-item';
 import { CheckoutCardFooterItem } from './checkout-card-footer-item';
 import { useTranslation } from 'next-i18next';
+import { useCartQuery } from '@framework/checkout/get-cartitems';
 
 const CheckoutCard: React.FC = () => {
-  const { items, total, isEmpty } = useCart();
+  // const { items, total, isEmpty } = useCart();
+  const { data, isLoading, isError } = useCartQuery();
+  const isEmpty = false
+  console.log(data, '_______yellow');
+  
   const { price: subtotal } = usePrice({
-    amount: total,
+    amount: data?.product_total,
     currencyCode: 'USD',
   });
   const { t } = useTranslation('common');
@@ -33,14 +38,14 @@ const CheckoutCard: React.FC = () => {
       <h2 className="text-lg md:text-xl xl:text-2xl font-bold text-heading mb-6 xl:mb-8">
         {t('text-your-order')}
       </h2>
-      <div className="flex p-4 rounded-md mt-6 md:mt-7 xl:mt-9 bg-gray-150 text-sm font-semibold text-heading">
+      <div className="flex p-4 rounded-md mt-6 md:mt-7 xl:mt-9 bg-gray-800 text-sm font-semibold text-heading">
         <span>{t('text-product')}</span>
         <span className="ltr:ml-auto rtl:mr-auto flex-shrink-0">
           {t('text-sub-total')}
         </span>
       </div>
       {!isEmpty ? (
-        items.map((item) => <CheckoutItem item={item} key={item.id} />)
+        data?.items?.map((item) => <CheckoutItem item={item} key={item.id} />)
       ) : (
         <p className="text-red-500 lg:px-3 py-4">{t('text-empty-cart')}</p>
       )}

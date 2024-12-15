@@ -11,6 +11,8 @@ import { generateCartItem } from "@utils/generate-cart-item";
 import usePrice from "@framework/product/use-price";
 import { getVariations } from "@framework/utils/get-variations";
 import { useTranslation } from "next-i18next";
+import { toast } from "react-toastify";
+import { useAddCartMutation } from "@framework/checkout/use-add-cart";
 
 export default function ProductPopup() {
   const { t } = useTranslation("common");
@@ -34,6 +36,7 @@ export default function ProductPopup() {
   });
   const variations = getVariations(data.variations);
   const { slug, images, name, description, selling_price, attribute } = data;
+  const { mutate, isLoading, isError, error, isSuccess } = useAddCartMutation();
   console.log(images, "__________");
 
   const isSelected = !isEmpty(variations)
@@ -46,16 +49,26 @@ export default function ProductPopup() {
     return Math.floor(Math.random() * limit);
   }
   function addToCart() {
-    if (!isSelected) return;
-    // to show btn feedback while product carting
-    setAddToCartLoader(true);
-    setTimeout(() => {
-      setAddToCartLoader(false);
-      setViewCartBtn(true);
-    }, 600);
-    const item = generateCartItem(data!, attributes);
-    addItemToCart(item, quantity);
-    console.log(item, "item");
+    console.log('====================================');
+    console.log(data, selectedAttribute, quantity);
+    console.log('====================================');
+    if (!selectedAttribute){
+      toast.error("Attribute is required")
+    }else{
+      console.log(data,selectedAttribute, quantity, 'popopopopopopopopop');
+      
+      mutate({product_id: data.id, attribute_id: selectedAttribute.id,quantity:quantity})
+    }
+    // const item:string = generateCartItem(data, selectedAttribute, quantity);
+    // if (!isSelected) return;
+    // // to show btn feedback while product carting
+    // setAddToCartLoader(true);
+    // // setTimeout(() => {
+    // //   setAddToCartLoader(false);
+    // //   setViewCartBtn(true);
+    // // }, 600);
+    // addItemToCart(item, quantity);
+    // console.log(item, "item");
   }
 
   function navigateToProductPage() {

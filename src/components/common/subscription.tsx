@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'next-i18next';
 
 const data = {
-  title: 'common:text-subscribe-heading',
+  title: 'common:hello world',
   description: 'common:text-subscribe-description',
   buttonText: 'common:button-subscribe',
 };

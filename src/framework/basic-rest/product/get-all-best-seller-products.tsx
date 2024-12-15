@@ -2,9 +2,11 @@ import { QueryOptionsType, Product } from "@framework/types";
 import http from "@framework/utils/http";
 import { API_ENDPOINTS } from "@framework/utils/api-endpoints";
 import { useQuery } from "@tanstack/react-query";
+import useCounterStore from "@contexts/userStore";
 
 export const fetchBestSellerProducts = async () => {
-	const { data } = await http.get(API_ENDPOINTS.BEST_SELLER_PRODUCTS);
+	const country = useCounterStore((state)=>state.country)
+	const { data } = await http.get(country + '/' +API_ENDPOINTS.BEST_SELLER_PRODUCTS);
 	return data as Product[];
 };
 export const useBestSellerProductsQuery = (options: QueryOptionsType) => {

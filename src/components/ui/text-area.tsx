@@ -39,7 +39,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
 			{labelKey && (
 				<label
 					htmlFor={name}
-					className="block text-gray-600 font-semibold text-sm leading-none mb-3"
+					className="block text-gray-100 font-semibold text-sm leading-none mb-3"
 				>
 					{t(labelKey)}
 				</label>

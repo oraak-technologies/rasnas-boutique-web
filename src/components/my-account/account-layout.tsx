@@ -15,7 +15,7 @@ const AccountLayout: React.FunctionComponent<{ children: React.ReactNode }> = ({
 					</div>
 				</div>
 
-				<Subscription />
+				{/* <Subscription /> */}
 			</Container>
 		</>
 	);

@@ -14,6 +14,8 @@ export interface SignUpInputType {
 }
 async function signUp(input: SignUpInputType) {
   try {
+    console.log('inside register mutation');
+    
     const response = await http.post(API_ENDPOINTS.REGISTER, {
       first_name: input.name,
       email: input.email,
