@@ -101,7 +101,7 @@ export default function Home() {
         {/* <DownloadApps /> */}
         <Support />
         <Instagram />
-        <Subscription className="px-5 py-12 bg-opacity-0 sm:px-16 xl:px-0 md:py-14 xl:py-16" />
+        {/* <Subscription className="px-5 py-12 bg-opacity-0 sm:px-16 xl:px-0 md:py-14 xl:py-16" /> */}
       </Container>
       <Divider className="mb-0" />
     </>

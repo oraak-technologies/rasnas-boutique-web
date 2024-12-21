@@ -53,7 +53,7 @@ export default function Home() {
 					variant="6column"
 				/>
 				<TestimonialCarousel sectionHeading="text-testimonial" />
-				<SubscriptionWithBg />
+				{/* <SubscriptionWithBg /> */}
 			</Container>
 		</>
 	);

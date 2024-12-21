@@ -19,7 +19,7 @@ export const ShopFilters: React.FC = () => {
 						{t("text-filters")}
 					</h2>
 					<button
-						className="flex-shrink text-xs mt-0.5 transition duration-150 ease-in focus:outline-none hover:text-heading"
+						className="flex-shrink text-xs text-heading mt-0.5 transition duration-150 ease-in focus:outline-none hover:text-heading"
 						aria-label="Clear All"
 						onClick={() => {
 							router.push(pathname);
@@ -48,7 +48,7 @@ export const ShopFilters: React.FC = () => {
 			<CategoryFilter />
 			<BrandFilter />
 			<PriceFilter />
-			<ColorFilter />
+			{/* <ColorFilter /> */}
 		</div>
 	);
 };

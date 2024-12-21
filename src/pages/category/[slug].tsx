@@ -14,7 +14,7 @@ export default function Category() {
 				<div className="pb-16 lg:pb-20">
 					<ProductGrid className="3xl:grid-cols-6" />
 				</div>
-				<Subscription />
+				{/* <Subscription /> */}
 			</Container>
 		</div>
 	);

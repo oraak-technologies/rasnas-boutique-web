@@ -13,6 +13,7 @@ import { getVariations } from "@framework/utils/get-variations";
 import { useTranslation } from "next-i18next";
 import { toast } from "react-toastify";
 import { useAddCartMutation } from "@framework/checkout/use-add-cart";
+import userStore from "@contexts/userStore";
 
 export default function ProductPopup() {
   const { t } = useTranslation("common");
@@ -37,6 +38,7 @@ export default function ProductPopup() {
   const variations = getVariations(data.variations);
   const { slug, images, name, description, selling_price, attribute } = data;
   const { mutate, isLoading, isError, error, isSuccess } = useAddCartMutation();
+  const { country, countryDetails} = userStore();
   console.log(images, "__________");
 
   const isSelected = !isEmpty(variations)
@@ -129,7 +131,7 @@ export default function ProductPopup() {
 
             <div className="flex items-center mt-3">
               <div className="text-heading font-semibold text-base md:text-xl lg:text-2xl">
-              ₹ {selling_price}
+              {countryDetails.currencySymbol} {selling_price}
               </div>
               {discount && (
                 <del className="font-segoe text-gray-400 text-base lg:text-xl ltr:pl-2.5 rtl:pr-2.5 -mt-0.5 md:mt-0">

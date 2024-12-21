@@ -11,6 +11,7 @@ import ProductViewIcon from '@components/icons/product-view-icon';
 import ProductWishIcon from '@components/icons/product-wish-icon';
 import ProductCompareIcon from '@components/icons/product-compare-icon';
 import RatingDisplay from '@components/common/rating-display';
+import userStore from '@contexts/userStore';
 
 interface ProductProps {
   product: Product;
@@ -66,6 +67,10 @@ const ProductCard: FC<ProductProps> = ({
     baseAmount: product.price,
     currencyCode: 'USD',
   });
+  const { country, countryDetails} = userStore();
+
+  console.log(country, countryDetails, '____cocococo');
+  
   function handlePopupView() {
     setModalData({ data: product });
     setModalView('PRODUCT_VIEW');
@@ -285,17 +290,17 @@ const ProductCard: FC<ProductProps> = ({
               demoVariant === 'ancient' && 'font-bold text-gray-900 text-lg'
             }`}
           >
-            ₹{product?.selling_price}
+            {countryDetails.currencySymbol} {product?.selling_price}
           </span>
-          {!discount && (
+          {/* {!discount && (
             <del
               className={`sm:text-base font-normal ${
                 bgTransparent ? 'text-white/70' : 'text-gray-800'
               }`}
             >
-              ₹{300.00}
+              {countryDetails.currencySymbol} {300.00}
             </del>
-          )}
+          )} */}
         </div>
       </div>
 

@@ -64,7 +64,7 @@ export default function Home() {
         />
         <TestimonialCarousel sectionHeading="text-testimonial" />
         <Instagram className="mb-12 md:mb-14 xl:mb-16" />
-        <SubscriptionWithBg />
+        {/* <SubscriptionWithBg /> */}
       </Container>
     </>
   );

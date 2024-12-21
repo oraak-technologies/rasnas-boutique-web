@@ -14,7 +14,7 @@ export default function SignInPage() {
         <div className="py-16 lg:py-20">
           <LoginForm />
         </div>
-        <Subscription />
+        {/* <Subscription /> */}
       </Container>
     </>
   );

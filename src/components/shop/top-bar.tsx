@@ -25,7 +25,7 @@ export default function SearchTopBar() {
         onClick={openFilter}
       >
         <FilterIcon />
-        <span className="ltr:pl-2.5 rtl:pr-2.5">{t('text-filters')}</span>
+        <span className="ltr:pl-2.5 rtl:pr-2.5 ">{t('text-filters')}</span>
       </button>
       <div className="flex items-center justify-end">
         <div className="flex-shrink-0 text-body text-xs md:text-sm leading-4 ltr:pr-4 rtl:pl-4 ltr:md:mr-6 rtl:md:ml-6 ltr:pl-2 rtl:pr-2 hidden lg:block">

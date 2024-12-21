@@ -61,7 +61,7 @@ export default function Home() {
         <FeatureBlock />
         <DownloadApps className="bg-linen" />
         <Support />
-        <Subscription className="px-5 bg-linen sm:px-8 md:px-16 2xl:px-24" />
+        {/* <Subscription className="px-5 bg-linen sm:px-8 md:px-16 2xl:px-24" /> */}
       </Container>
     </>
   );

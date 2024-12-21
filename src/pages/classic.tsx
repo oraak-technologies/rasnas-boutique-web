@@ -61,7 +61,7 @@ export default function Home() {
         <DownloadApps />
         <Support />
         <Instagram />
-        <Subscription className="px-8 bg-opacity-0 sm:px-16 xl:px-0" />
+        {/* <Subscription className="px-8 bg-opacity-0 sm:px-16 xl:px-0" /> */}
       </Container>
       <Divider className="mb-0" />
     </>

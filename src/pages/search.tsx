@@ -48,7 +48,7 @@ export default function Shop() {
             <ProductGrid />
           </div>
         </div>
-        <Subscription />
+        {/* <Subscription /> */}
       </Container>
     </>
   );

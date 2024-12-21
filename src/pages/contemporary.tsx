@@ -93,7 +93,7 @@ export default function Home() {
           className="relative mb-12 md:mb-14 xl:mb-16"
         />
         <Instagram className="mb-4 md:mb-5 xl:mb-16" variant="rounded" />
-        <Subscription className="bg-opacity-0 px-5 sm:px-16 xl:px-0 mb-12 md:mb-14 xl:mb-16 lg:mt-16 mt-12 !py-0 !md:py-0 !lg:py-0" />
+        {/* <Subscription className="bg-opacity-0 px-5 sm:px-16 xl:px-0 mb-12 md:mb-14 xl:mb-16 lg:mt-16 mt-12 !py-0 !md:py-0 !lg:py-0" /> */}
       </Container>
     </>
   );

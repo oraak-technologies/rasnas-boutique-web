@@ -15,7 +15,7 @@ export default function FAQ() {
 				<div className="py-16 lg:py-20 px-0 max-w-5xl mx-auto space-y-4">
 					<Accordion items={faq} translatorNS="faq" />
 				</div>
-				<Subscription />
+				{/* <Subscription /> */}
 			</Container>
 		</>
 	);

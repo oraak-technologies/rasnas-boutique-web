@@ -4,23 +4,22 @@ import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 import { useQuery } from '@tanstack/react-query';
 
 export const fetchCategories = async () => {
-  const {
-    data: { data },
-  } = await http.get(API_ENDPOINTS.CATEGORIES);
+  const response = await http.get(API_ENDPOINTS.CATEGORIES);
+  const categoriesData = response.data.app_data.data;
+  console.log(categoriesData,"hello world");
+  
   return {
-    categories: {
-      data: data as Category[],
-    },
+    categories: categoriesData || [], // Ensure it returns an empty array if categoriesData is undefined
   };
 };
 
 const fetchAncientCategories = async () => {
-  const {
-    data: { data },
-  } = await http.get(API_ENDPOINTS.CATEGORIES_ANCIENT);
+  const response = await http.get(API_ENDPOINTS.CATEGORIES);
+  console.log(response.data.app_data.data, '____erllo');
+  const categoriesData = response.data?.data?.app_data?.data;
   return {
     categories: {
-      data: data as Category[],
+      data: categoriesData as Category[],
     },
   };
 };

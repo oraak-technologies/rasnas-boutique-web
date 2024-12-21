@@ -46,7 +46,7 @@ export default function Collections() {
             <ProductGrid />
           </div>
         </div>
-        <Subscription />
+        {/* <Subscription /> */}
       </Container>
     </div>
   );

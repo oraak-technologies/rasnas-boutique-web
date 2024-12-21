@@ -25,7 +25,7 @@ const HeaderMenu: React.FC<MenuProps> = ({ data, categoryData, className }) => {
           key={item.id}
         >
           <Link
-            href={"item.path"}
+            href={`products?category=${item.name}`}
             className="relative inline-flex items-center px-3 py-2 text-sm font-normal xl:text-base text-heading xl:px-4 group-hover:text-gray-500"
           >
             {item.name}

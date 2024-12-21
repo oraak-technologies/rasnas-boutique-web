@@ -12,7 +12,7 @@ export default function Order() {
 			<PageHeader pageHeader="text-page-order" />
 			<Container>
 				<OrderInformation />
-				<Subscription />
+				{/* <Subscription /> */}
 			</Container>
 		</>
 	);

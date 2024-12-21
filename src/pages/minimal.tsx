@@ -58,7 +58,7 @@ export default function Home() {
       <CollectionBlock data={collection} />
       <DownloadApps />
       <Support />
-      <Subscription />
+      {/* <Subscription /> */}
     </Container>
   );
 }

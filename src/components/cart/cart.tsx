@@ -11,6 +11,7 @@ import { ROUTES } from '@utils/routes';
 import cn from 'classnames';
 import { useTranslation } from 'next-i18next';
 import { useCartQuery } from '@framework/checkout/get-cartitems';
+import userStore from '@contexts/userStore';
 
 export default function Cart() {
   const { t } = useTranslation('common');
@@ -18,6 +19,7 @@ export default function Cart() {
 
   // Fetch cart data using React Query
   const { data, isLoading, isError } = useCartQuery();
+  const {countryDetails} = userStore()
 
   // Destructure items and product total from the cart data
   const items = data?.items || [];
@@ -109,7 +111,7 @@ export default function Cart() {
           </span>
           <span className="rtl:mr-auto ltr:ml-auto flex-shrink-0 -mt-0.5 py-0.5 flex">
             <span className="ltr:border-l rtl:border-r border-white ltr:pr-5 rtl:pl-5 py-0.5" />
-            {cartTotal}
+            {countryDetails.currencySymbol} {productTotal}
           </span>
         </Link>
       </div>

@@ -14,7 +14,7 @@ export default function ForgetPasswordPage() {
 				<div className="py-16 lg:py-20">
 					<ForgetPasswordForm />
 				</div>
-				<Subscription />
+				{/* <Subscription /> */}
 			</Container>
 		</>
 	);

@@ -10,7 +10,7 @@ export default function ShopsPage() {
 		<>
 			<ShopsPageContent />
 			<Container>
-				<Subscription />
+				{/* <Subscription /> */}
 			</Container>
 		</>
 	);

@@ -1,20 +1,19 @@
 import useCounterStore from "@contexts/userStore";
 import React, { useEffect, useState } from "react";
-// import { useStore } from "zustand";
 
 interface SwitchProps {
   onSwitch: (value: string) => void;
 }
 
+type LocationStatus = "Kuwait" | "India" | "Outside Kuwait and India" | "Permission Denied";
+
 const CountrySwitch: React.FC<SwitchProps> = ({ onSwitch }) => {
-  const [selectedCountry, setSelectedCountry] = useState("Kuwait");
   const country = useCounterStore((state) => state.country);
   const changeCountry = useCounterStore((state) => state.changeCountry);
   const [locationStatus, setLocationStatus] = useState<LocationStatus | null>(
     null
   );
 
-  // Define the approximate latitude and longitude ranges for Kuwait and India
   const isInKuwait = (latitude: number, longitude: number) =>
     latitude >= 28.5246 &&
     latitude <= 30.1037 &&
@@ -49,6 +48,7 @@ const CountrySwitch: React.FC<SwitchProps> = ({ onSwitch }) => {
         );
       } else {
         console.error("Geolocation not supported");
+        setLocationStatus("Permission Denied");
       }
     };
 
@@ -56,44 +56,43 @@ const CountrySwitch: React.FC<SwitchProps> = ({ onSwitch }) => {
   }, []);
 
   const toggleCountry = () => {
-    // const newCountry = selectedCountry === "Kuwait" ? "India" : "Kuwait";
-    // changeCountry()
-    setSelectedCountry(country === "IN" ? "India" : "Kuwait");
-    changeCountry()
-
-    // onSwitch(newCountry);
+    changeCountry();
+    onSwitch(country === "IN" ? "Kuwait" : "India");
   };
-  console.log('====================================');
-  console.log(country);
-  console.log('====================================');
+
   return (
-    <div className="flex items-center space-x-4">
-      <span
-        className={`text-sm font-semibold ${
-          selectedCountry === "Kuwait" ? "text-blue-500" : "text-gray-500"
-        }`}
-      >
-        Kuwait
-      </span>
-      <div
-        className={`w-14 h-5 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer ${
-          selectedCountry === "India" ? "bg-green-500" : "bg-blue-500"
-        }`}
-        onClick={toggleCountry}
-      >
+    <div className="flex flex-col items-center space-y-4">
+      <div className="flex items-center space-x-4">
+        <span
+          className={`text-sm font-semibold ${
+            country === "KWT" ? "text-blue-500" : "text-gray-500"
+          }`}
+        >
+          Kuwait
+        </span>
         <div
-          className={`bg-white w-3 h-3 rounded-full shadow-md transform ${
-            selectedCountry === "India" ? "translate-x-9" : ""
-          } transition-transform duration-300`}
-        ></div>
+          className={`w-14 h-5 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer ${
+            country === "IN" ? "bg-green-500" : "bg-blue-500"
+          }`}
+          onClick={toggleCountry}
+        >
+          <div
+            className={`bg-white w-3 h-3 rounded-full shadow-md transform ${
+              country === "IN" ? "translate-x-9" : ""
+            } transition-transform duration-300`}
+          ></div>
+        </div>
+        <span
+          className={`text-sm font-semibold ${
+            country === "IN" ? "text-green-500" : "text-gray-500"
+          }`}
+        >
+          India
+        </span>
       </div>
-      <span
-        className={`text-sm font-semibold ${
-          selectedCountry === "India" ? "text-green-500" : "text-gray-500"
-        }`}
-      >
-        India
-      </span>
+      {/* <div className="text-sm text-gray-300">
+        <p>Location Status: {locationStatus || "Detecting..."}</p>
+      </div> */}
     </div>
   );
 };

@@ -18,7 +18,7 @@ export default function ProductPage() {
 				</div>
 				<ProductSingleDetails />
 				<RelatedProducts sectionHeading="text-related-products" />
-				<Subscription />
+				{/* <Subscription /> */}
 			</Container>
 		</>
 	);

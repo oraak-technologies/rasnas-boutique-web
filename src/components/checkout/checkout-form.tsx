@@ -11,6 +11,7 @@ import { useState } from "react";
 import http from "@framework/utils/http";
 import { API_ENDPOINTS } from "@framework/utils/api-endpoints";
 import { toast } from "react-toastify";
+import { checkoutRazorPay } from "./razorpay-checkout";
 
 const CheckoutForm: React.FC = () => {
   const { t } = useTranslation();
@@ -67,7 +68,9 @@ const CheckoutForm: React.FC = () => {
       toast.error("Please select or add an address")
     }else{
       http.post(API_ENDPOINTS.PURCHASE, {address: selectedAddress.id}).then((res)=>{
-        console.log(res);
+        const { razorpay, purchase } = res.data.app_data.data;
+        const { order_id, amount } = razorpay;
+        checkoutRazorPay(order_id, amount, purchase)
         
       })
     }

@@ -52,11 +52,5 @@
     "files": [
       "static/chunks/src_components_layout_header_mobile-menu_tsx.js"
     ]
-  },
-  "../containers/product-flash-sale-block.tsx -> react-countdown": {
-    "id": "../containers/product-flash-sale-block.tsx -> react-countdown",
-    "files": [
-      "static/chunks/node_modules_react-countdown_dist_index_es_js.js"
-    ]
   }
 }

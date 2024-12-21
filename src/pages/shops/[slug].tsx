@@ -10,7 +10,7 @@ export default function ShopDetailsPage() {
 		<div className="border-t border-gray-300">
 			<ShopsSingleDetails />
 			<Container>
-				<Subscription />
+				{/* <Subscription /> */}
 			</Container>
 		</div>
 	);
