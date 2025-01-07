@@ -19,7 +19,12 @@ http.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      localStorage.clear(); // Clear local storage on 401 error
+    }
+    return Promise.reject(error);
+  }
 );
 
 export default http;

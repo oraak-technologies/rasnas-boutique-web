@@ -1,27 +1,30 @@
-import React, { useState } from 'react';
-import Button from '@components/ui/button';
-import Counter from '@components/common/counter';
-import { useRouter } from 'next/router';
-import { useProductQuery } from '@framework/product/get-product';
-import { getVariations } from '@framework/utils/get-variations';
-import usePrice from '@framework/product/use-price';
-import { useCart } from '@contexts/cart/cart.context';
-import { generateCartItem } from '@utils/generate-cart-item';
-import { ProductAttributes } from './product-attributes';
-import isEmpty from 'lodash/isEmpty';
-import Link from '@components/ui/link';
-import { toast } from 'react-toastify';
-import { useWindowSize } from '@utils/use-window-size';
-import Carousel from '@components/ui/carousel/carousel';
-import { SwiperSlide } from 'swiper/react';
-import ProductMetaReview from '@components/product/product-meta-review';
-import { useSsrCompatible } from '@utils/use-ssr-compatible';
+import React, { useState } from "react";
+import Button from "@components/ui/button";
+import Counter from "@components/common/counter";
+import { useRouter } from "next/router";
+import { useProductQuery } from "@framework/product/get-product";
+import { getVariations } from "@framework/utils/get-variations";
+import usePrice from "@framework/product/use-price";
+import { useCart } from "@contexts/cart/cart.context";
+import { generateCartItem } from "@utils/generate-cart-item";
+import { ProductAttributes } from "./product-attributes";
+import isEmpty from "lodash/isEmpty";
+import Link from "@components/ui/link";
+import { toast } from "react-toastify";
+import { useWindowSize } from "@utils/use-window-size";
+import Carousel from "@components/ui/carousel/carousel";
+import { SwiperSlide } from "swiper/react";
+import ProductMetaReview from "@components/product/product-meta-review";
+import { useSsrCompatible } from "@utils/use-ssr-compatible";
+import { getToken } from "@framework/utils/get-token";
+import { useUI } from "@contexts/ui.context";
+import { useAddCartMutation } from "@framework/checkout/use-add-cart";
 
 const productGalleryCarouselResponsive = {
-  '768': {
+  "768": {
     slidesPerView: 2,
   },
-  '0': {
+  "0": {
     slidesPerView: 1,
   },
 };
@@ -31,7 +34,8 @@ const ProductSingleDetails: React.FC = () => {
     query: { slug },
   } = useRouter();
   const { width } = useSsrCompatible(useWindowSize(), { width: 0, height: 0 });
-  const { data, isLoading } = useProductQuery(slug as string);
+  const [selectedAttribute, setSelectedAttribute] = useState<any>();
+  const { data } = useProductQuery(slug as string);
   const { addItemToCart } = useCart();
   const [attributes, setAttributes] = useState<{ [key: string]: string }>({});
   const [quantity, setQuantity] = useState(1);
@@ -40,11 +44,14 @@ const ProductSingleDetails: React.FC = () => {
     data && {
       amount: data.sale_price ? data.sale_price : data.price,
       baseAmount: data.price,
-      currencyCode: 'USD',
+      currencyCode: "USD",
     }
   );
-  if (isLoading) return <p>Loading...</p>;
   const variations = getVariations(data?.variations);
+
+  console.log(data, "______fellow_data");
+  const product_detail = data?.app_data?.data;
+  console.log(product_detail, "___detail____");
 
   const isSelected = !isEmpty(variations)
     ? !isEmpty(attributes) &&
@@ -52,34 +59,41 @@ const ProductSingleDetails: React.FC = () => {
         attributes.hasOwnProperty(variation)
       )
     : true;
-
+    const { openModal, setModalView, setModalData } = useUI();
+    const { mutate, isError, error, isSuccess } = useAddCartMutation();
   function addToCart() {
-    if (!isSelected) return;
-    // to show btn feedback while product carting
-    setAddToCartLoader(true);
-    setTimeout(() => {
-      setAddToCartLoader(false);
-    }, 600);
+    if (!selectedAttribute) return;
+    const token = getToken();
+    console.log(token, '____tok');
+    
+    if(!token){
+      console.log('___no tok');
+      
+      setModalView("LOGIN_VIEW");
+      return openModal();
+    }
+    mutate({product_id: product_detail.id, attribute_id: selectedAttribute.id,quantity:quantity})
+    // setAddToCartLoader(true);
+    // setTimeout(() => {
+    //   setAddToCartLoader(false);
+    // }, 600);
 
     const item = generateCartItem(data!, attributes);
     addItemToCart(item, quantity);
-    toast('Added to the bag', {
-      progressClassName: 'fancy-progress-bar',
-      position: width > 768 ? 'bottom-right' : 'top-right',
+    toast("Added to the bag", {
+      progressClassName: "fancy-progress-bar",
+      position: width > 768 ? "bottom-right" : "top-right",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
     });
-    console.log(item, 'item');
+    console.log(item, "item");
   }
 
   function handleAttribute(attribute: any) {
-    setAttributes((prev) => ({
-      ...prev,
-      ...attribute,
-    }));
+    setSelectedAttribute(attribute)
   }
 
   return (
@@ -93,34 +107,33 @@ const ProductSingleDetails: React.FC = () => {
           className="product-gallery"
           buttonGroupClassName="hidden"
         >
-          {data?.gallery?.map((item, index: number) => (
-            <SwiperSlide key={`product-gallery-key-${index}`}>
-              <div className="col-span-1 transition duration-150 ease-in hover:opacity-90">
-                <img
-                  src={
-                    item?.original ??
-                    '/assets/placeholder/products/product-gallery.svg'
-                  }
-                  alt={`${data?.name}--${index}`}
-                  className="object-cover w-full"
-                />
-              </div>
-            </SwiperSlide>
-          ))}
+          {product_detail?.images?.map(
+            (item: { image: string; id: number }, index: number) => (
+              <SwiperSlide key={`product-gallery-key-${index}`}>
+                <div className="col-span-1 transition duration-150 ease-in hover:opacity-90">
+                  <img
+                    src={item?.image}
+                    alt={`${item.id}--${index}`}
+                    className="object-cover w-full"
+                  />
+                </div>
+              </SwiperSlide>
+            )
+          )}
         </Carousel>
       ) : (
         <div className="col-span-5 grid grid-cols-2 gap-2.5">
-          {data?.gallery?.map((item, index: number) => (
+          {product_detail?.images?.map((item: { image: string; id: number }, index: number) => (
             <div
               key={index}
               className="col-span-1 transition duration-150 ease-in hover:opacity-90"
             >
               <img
                 src={
-                  item?.original ??
-                  '/assets/placeholder/products/product-gallery.svg'
+                  item.image ??
+                  "/assets/placeholder/products/product-gallery.svg"
                 }
-                alt={`${data?.name}--${index}`}
+                alt={`${product_detail?.name}--${index}`}
                 className="object-cover w-full"
               />
             </div>
@@ -130,36 +143,32 @@ const ProductSingleDetails: React.FC = () => {
 
       <div className="col-span-4 pt-8 lg:pt-0">
         <div className="pb-7 mb-7 border-b border-gray-300">
-          <h2 className="text-heading text-lg md:text-xl lg:text-2xl 2xl:text-3xl font-bold hover:text-black mb-3.5">
-            {data?.name}
+          <h2 className="text-heading text-lg md:text-xl lg:text-2xl 2xl:text-3xl font-bold mb-3.5">
+            {product_detail?.name}
           </h2>
-          <p className="text-body text-sm lg:text-base leading-6 lg:leading-8">
-            {data?.description}
+          <p className="text-heading text-sm lg:text-base leading-6 lg:leading-8">
+            {product_detail?.description}
           </p>
           <div className="flex items-center mt-5">
             <div className="text-heading font-bold text-base md:text-xl lg:text-2xl 2xl:text-4xl ltr:pr-2 rtl:pl-2 ltr:md:pr-0 rtl:md:pl-0 ltr:lg:pr-2 rtl:lg:pl-2 ltr:2xl:pr-0 rtl:2xl:pl-0">
-              {price}
+              {product_detail?.selling_price}
             </div>
             {discount && (
               <span className="line-through font-segoe text-gray-400 text-sm md:text-base lg:text-lg xl:text-xl ltr:pl-2 rtl:pr-2">
-                {basePrice}
+                {product_detail?.selling_price}
               </span>
             )}
           </div>
         </div>
 
         <div className="pb-3 border-b border-gray-300">
-          {Object.keys(variations).map((variation) => {
-            return (
-              <ProductAttributes
-                key={variation}
-                title={variation}
-                attributes={variations[variation]}
-                active={attributes[variation]}
-                onClick={handleAttribute}
-              />
-            );
-          })}
+          <ProductAttributes
+            key={`popup-attribute-key${"variation"}`}
+            title={"Size"}
+            attributes={product_detail?.attribute}
+            active={selectedAttribute}
+            onClick={handleAttribute}
+          />
         </div>
         <div className="flex items-center gap-x-4 ltr:md:pr-32 rtl:md:pl-32 ltr:lg:pr-12 rtl:lg:pl-12 ltr:2xl:pr-32 rtl:2xl:pl-32 ltr:3xl:pr-48 rtl:3xl:pl-48  border-b border-gray-300 py-8">
           <Counter
@@ -172,17 +181,17 @@ const ProductSingleDetails: React.FC = () => {
           />
           <Button
             onClick={addToCart}
-            variant="slim"
-            className={`w-full md:w-6/12 xl:w-full ${
-              !isSelected && 'bg-gray-400 hover:bg-gray-400'
+            variant=""
+            className={`w-full md:w-6/12 bg-black xl:w-full ${
+              !isSelected && "bg-black hover:bg-black"
             }`}
             disabled={!isSelected}
             loading={addToCartLoader}
           >
-            <span className="py-2 3xl:px-8">Add to cart</span>
+            <span className="py-4 3xl:px-8 text-heading">Add to cart</span>
           </Button>
         </div>
-        <div className="py-6">
+        {/* <div className="py-6">
           <ul className="text-sm space-y-5 pb-1">
             <li>
               <span className="font-semibold text-heading inline-block ltr:pr-2 rtl:pl-2">
@@ -219,7 +228,7 @@ const ProductSingleDetails: React.FC = () => {
               </li>
             )}
           </ul>
-        </div>
+        </div> */}
 
         <ProductMetaReview data={data} />
       </div>

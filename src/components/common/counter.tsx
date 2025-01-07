@@ -47,7 +47,7 @@ const Counter: React.FC<CounterProps> = ({
 
 			<span
 				className={cn(
-					"font-semibold flex items-center text-black justify-center h-full  transition-colors duration-250 ease-in-out cursor-default flex-shrink-0",
+					"font-semibold flex items-center text-heading justify-center h-full  transition-colors duration-250 ease-in-out cursor-default flex-shrink-0",
 					{
 						"text-base  w-12  md:w-20 xl:w-24":
 							variant === "default",

@@ -75,7 +75,7 @@ export default function ProductPopup() {
 
   function navigateToProductPage() {
     closeModal();
-    router.push(`${ROUTES.PRODUCT}/${slug}`, undefined, {
+    router.push(`${ROUTES.PRODUCT}/${data.id}`, undefined, {
       locale: router.locale,
     });
   }

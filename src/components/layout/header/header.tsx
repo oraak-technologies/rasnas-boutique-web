@@ -11,6 +11,7 @@ import { useTranslation } from "next-i18next";
 import LanguageSwitcher from "@components/ui/language-switcher";
 import CountrySwitch from "@components/ui/CountrySwitch";
 import { useFetchCategory } from "@framework/product/get-all-caategory";
+import { getToken } from "@framework/utils/get-token";
 const AuthMenu = dynamic(() => import("./auth-menu"), { ssr: false });
 const CartButton = dynamic(() => import("@components/cart/cart-button"), {
   ssr: false,
@@ -22,7 +23,7 @@ const Header: React.FC = () => {
   const { openSearch, openModal, setModalView, isAuthorized } = useUI();
   const {data} = useFetchCategory({});
   console.log(data, '____head_category');
-  
+  const token = getToken()
   const { t } = useTranslation("common");
   const siteHeaderRef = useRef() as DivElementRef;
   addActiveScroll(siteHeaderRef);
@@ -79,7 +80,7 @@ const Header: React.FC = () => {
                 {t("text-account")}
               </AuthMenu>
             </div>
-            <CartButton />
+            {token && <CartButton />}
           </div>
         </div>
       </div>

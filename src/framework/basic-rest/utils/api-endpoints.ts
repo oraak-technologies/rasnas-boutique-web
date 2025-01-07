@@ -18,7 +18,7 @@ export const API_ENDPOINTS = {
   FEATURED_PRODUCTS_ANCIENT: '/featured_products_ancient.json',
   TOP_SELLER_PRODUCTS: '/products_top_seller.json',
   ON_SELLING_PRODUCTS: '/products_on_selling.json',
-  PRODUCT: '/product.json',
+  PRODUCT: '/products/viewproduct/',
   RELATED_PRODUCTS: '/related_products.json',
   BEST_SELLER_PRODUCTS: '/products/viewproduct/',
   NEW_ARRIVAL_PRODUCTS: '/products/viewproduct/',
